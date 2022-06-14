@@ -1,0 +1,25 @@
+#!/bin/ksh
+. "$(dirname "$0")"/webobsVariablesCommunes
+
+renice 19 $$ > /dev/null
+
+LOCK="/tmp/.MATLAB-fonction-$1-lock"
+
+if [ ! -e $LOCK ]
+then
+        touch $LOCK
+	echo "`date`: Previous $LOCK does not exist"
+
+	#su -l $CONF_USER_MATLAB -c "$CONF_PRGM_MATLAB -r 'cd $CONF_RACINE_TOOLS_MATLAB;$(echo "$1"|sed "s/'/'\\\\''/g");quit'"
+       	su -l $CONF_USER_MATLAB -c "/usr/local/matlab/bin/glnxa64/MATLAB -nodisplay -r 'cd /mvo/webobs/TOOLS/MATLAB;$(echo "$1"|sed "s/'/'\\\\''/g");quit'"
+	
+	#eval $CMD 
+	rm -f $LOCK
+else
+	if [ $(($(date +%s)-$(find "$LOCK" -printf "%T@"|cut -d. -f1))) -lt 600 ]
+	then
+		echo "recent $LOCK exists. Cannot launch MATLAB $1" >&2
+	else
+		echo "$LOCK exists. Cannot launch MATLAB $1" >&2
+	fi
+fi
