@@ -10,7 +10,8 @@ rainfallph.m
 WEBOBS->DomeVology->Fumarole Temperatures
 temp_fumaroles.m
 
-The following shell scripts runs once per week (every Saturday at 5am) which executes the above matlab scripts for updating the graphs on webobs
+The following shell scripts runs once per week (every Saturday at 5am) which executes the above matlab scripts for updating the graphs on webobs.
+
 matlab-weekly.ksh
 matlan-fonction_weekly
 
